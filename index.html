@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bambu Marmitaria – Faça seu pedido</title>
+<meta name="description" content="Bambu Marmitaria: comida caseira, quentinha e feita com carinho. Peça pelo WhatsApp, Anota Aí, iFood ou 99.">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    min-height:100dvh;overflow-x:hidden;color:#fff;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%,rgba(215,255,150,.55),transparent 65%),
+      radial-gradient(ellipse at 50% 60%,#2b9a58 0%,#125a37 45%,#062b1c 100%);
+    display:flex;justify-content:center;align-items:center;padding:28px 20px;
+  }
+
+  /* ---------- Floresta de bambu (fundo 3D) ---------- */
+  .forest{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+  .stalk{
+    position:absolute;top:-30px;bottom:-30px;left:var(--x);width:var(--w);
+    border-radius:14px;transform-origin:50% 100%;
+    opacity:var(--o);filter:blur(var(--b));
+    background:
+      repeating-linear-gradient(180deg,transparent 0 var(--seg),rgba(0,0,0,.45) var(--seg) calc(var(--seg) + 7px),rgba(255,255,255,.35) calc(var(--seg) + 7px) calc(var(--seg) + 10px),transparent calc(var(--seg) + 10px) calc(var(--seg) + 20px)) 0 var(--off),
+      linear-gradient(90deg,#083a22 0%,#22904f 28%,#a6e985 46%,#2ca25b 64%,#062f1c 100%);
+    box-shadow:8px 0 18px rgba(0,0,0,.35);
+    animation:sway var(--t) ease-in-out infinite alternate;
+  }
+  .leaf{
+    position:absolute;width:var(--l);height:calc(var(--l) * .28);
+    background:linear-gradient(160deg,#c4f57c 0%,#3fb85a 45%,#0d6b36 100%);
+    border-radius:0 100% 0 100%;box-shadow:0 4px 8px rgba(0,0,0,.3);
+  }
+  @keyframes sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+
+  /* ---------- Conteúdo ---------- */
+  main{position:relative;z-index:2;width:100%;max-width:420px;text-align:center}
+  .logo{
+    width:140px;height:140px;margin:0 auto 18px;border-radius:50%;
+    display:grid;place-items:center;overflow:hidden;
+    background:radial-gradient(circle at 35% 30%,#3a8a5a,#0c3a24);
+    border:5px solid #1f8a4c;
+    box-shadow:0 8px 0 #0a4a26,0 14px 28px rgba(0,0,0,.5),0 0 22px rgba(44,162,91,.6),inset 0 3px 8px rgba(255,255,255,.25);
+    font-size:.85rem;font-weight:700;color:#d7ff8f;padding:14px;
+  }
+  .logo.tem-img{padding:0;background:#0c3a24}
+  .logo img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+  h1{
+    font-size:clamp(2.1rem,9vw,2.9rem);line-height:1.05;letter-spacing:.5px;color:#f1ffc9;
+    text-shadow:0 2px 0 #7fc93a,0 4px 0 #3f8f23,0 6px 0 #1d5c1a,0 10px 16px rgba(0,0,0,.55);
+  }
+  .sub{margin:14px auto 28px;max-width:320px;font-size:1.02rem;color:#eaffd6;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+  .links{display:flex;flex-direction:column;gap:18px}
+
+  .btn{
+    position:relative;display:flex;align-items:center;justify-content:center;gap:12px;
+    min-height:64px;padding:12px 22px;border-radius:999px;text-decoration:none;
+    font-weight:800;font-size:1.08rem;color:var(--txt,#fff);
+    background:linear-gradient(180deg,var(--c1),var(--c2));
+    border:2px solid var(--borda);
+    box-shadow:0 7px 0 var(--sombra),0 12px 22px rgba(0,0,0,.45),0 0 16px rgba(var(--glow),.75),inset 0 2px 0 rgba(255,255,255,.55);
+    transition:transform .12s,box-shadow .12s;overflow:hidden;
+  }
+  .btn::before{content:"";position:absolute;left:8%;right:8%;top:4px;height:42%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(5px);box-shadow:0 2px 0 var(--sombra),0 4px 10px rgba(0,0,0,.4),0 0 12px rgba(var(--glow),.7),inset 0 2px 0 rgba(255,255,255,.55)}
+  .btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
+  .btn img{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+  .btn span{position:relative;padding:0 56px}
+
+  @media (prefers-reduced-motion:reduce){.stalk{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="forest" id="forest" aria-hidden="true"></div>
+
+<main>
+  <div class="logo" id="logo">Sua logo aqui</div>
+  <h1>Bambu Marmitaria</h1>
+  <p class="sub">Comida caseira, quentinha e feita com carinho. Escolha como quer pedir:</p>
+  <nav class="links" id="links" aria-label="Formas de pedir"></nav>
+</main>
+
+<script>
+/* ============ EDITE AQUI ============ */
+
+// Link da sua logo (imagem quadrada ou redonda, ex.: 500 x 500)
+const LOGO = "https://i.postimg.cc/0jqZhCSh/ba7cb1ca-32a1-4b51-bee4-864cb325c2c9.jpg";
+
+// Botões: link de destino e link do ícone
+const BOTOES = [
+  { texto: "Pedir no WhatsApp", link: "https://wa.me/5567999999999",          icone: "https://i.postimg.cc/Wpgk5k7Q/whatsapp-logo-icon-free-png.webp",
+    c1: "#3be681", c2: "#14a94c", borda: "#c4ffd9", sombra: "#0b6e30", glow: "80,255,140",  txt: "#fff" },
+  { texto: "Pedir no Anota Aí", link: "https://COLE-AQUI-O-LINK-DO-ANOTA-AI", icone: "https://i.postimg.cc/cCrY9gkZ/anota-ai-gestor-de-pedidos-logo.avif",
+    c1: "#93dbff", c2: "#3ba7ec", borda: "#e0f4ff", sombra: "#1f6fae", glow: "110,200,255", txt: "#fff" },
+  { texto: "Pedir no iFood",    link: "https://COLE-AQUI-O-LINK-DO-IFOOD",    icone: "https://i.postimg.cc/V6yNtK2b/OIP-(2).webp",
+    c1: "#ff5561", c2: "#d81424", borda: "#ffcfd2", sombra: "#8e0a16", glow: "255,85,95",   txt: "#fff" },
+  { texto: "Pedir na 99",       link: "https://COLE-AQUI-O-LINK-DA-99",       icone: "https://i.postimg.cc/GmV30MLx/99food-logo-02-1764850962648.png",
+    c1: "#ffe655", c2: "#f7b900", borda: "#fff4b8", sombra: "#a97a00", glow: "255,214,60",  txt: "#1c1b1a" }
+];
+
+/* ============ NÃO PRECISA MEXER ABAIXO ============ */
+
+// Logo
+if (LOGO.startsWith("http")) {
+  const logo = document.getElementById("logo");
+  const img = new Image();
+  img.alt = "Bambu Marmitaria";
+  img.onload = () => { logo.textContent = ""; logo.classList.add("tem-img"); logo.appendChild(img); };
+  img.src = LOGO;
+}
+
+// Botões
+const nav = document.getElementById("links");
+BOTOES.forEach(b => {
+  const a = document.createElement("a");
+  a.className = "btn";
+  a.href = b.link; a.target = "_blank"; a.rel = "noopener";
+  ["c1","c2","borda","sombra","glow","txt"].forEach(k => a.style.setProperty("--" + k, b[k]));
+  if (b.icone.startsWith("http")) {
+    const img = document.createElement("img");
+    img.src = b.icone; img.alt = ""; img.onerror = () => img.remove();
+    a.appendChild(img);
+  }
+  const s = document.createElement("span");
+  s.textContent = b.texto;
+  a.appendChild(s);
+  nav.appendChild(a);
+});
+
+// Bambus: [posição %, largura px, opacidade, desfoque px, tamanho do gomo, deslocamento, duração]
+const FLORESTA = [
+  [-3, 46, .55, 3, 190, 40, 9],  [7, 30, .45, 2.5, 150, 90, 7.5],
+  [17, 22, .3, 3, 130, 20, 8.5], [78, 24, .32, 3, 140, 60, 8],
+  [86, 32, .5, 2.5, 160, 10, 7],  [94, 50, .6, 3, 200, 100, 9.5],
+  [-1, 34, 1, 0, 170, 70, 6.5],   [96, 38, 1, 0, 180, 30, 7.2]
+];
+const forest = document.getElementById("forest");
+FLORESTA.forEach(([x, w, o, bl, seg, off, t]) => {
+  const st = document.createElement("div");
+  st.className = "stalk";
+  st.style.cssText = `--x:${x}%;--w:${w}px;--o:${o};--b:${bl}px;--seg:${seg}px;--off:${off}px;--t:${t}s`;
+  for (let i = 0; i < 4; i++) {
+    const lf = document.createElement("i");
+    lf.className = "leaf";
+    const left = i % 2 === 0;
+    const size = 70 + (i * 17) % 50 + w / 2;
+    lf.style.cssText = `--l:${size}px;top:${8 + i * 21}%;${left ? "right" : "left"}:${w - 6}px;` +
+      `transform:rotate(${left ? 200 - i * 8 : -20 + i * 8}deg);transform-origin:${left ? "100%" : "0"} 50%`;
+    st.appendChild(lf);
+  }
+  forest.appendChild(st);
+});
+</script>
+</body>
+</html>
