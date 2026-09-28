@@ -1,270 +1,95 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Descuento VIP</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      background-color: #0f0f0f !important;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #ffffff;
-      overflow-x: hidden; /* trava vazamento lateral */
-    }
-    body {
-      text-align: center;
-      padding-top: 40px; /* espaço superior seguro */
-    }
-    .box {
-      width: 100%;
-      max-width: 520px;
-      padding: 20px;
-      background: #0f0f0f; /* fundo preto garantido na área do botão */
-      margin: 0 auto; /* CENTRALIZA A PÁGINA */
-      overflow-x: hidden; /* evita qualquer "puxada" lateral dentro do container */
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
-      color: #ffd700;
-      line-height: 1.25;
-    }
-
-    .sub {
-      font-size: 18px;
-      margin-bottom: 18px;
-      color: #ffffff;
-      font-weight: bold;
-    }
-
-    /* Ajuste fino para mobile */
-    @media (max-width: 480px) {
-      body { padding-top: 20px; }
-      h1 { font-size: 22px; }
-      .box { padding: 16px; }
-    }
-      h1 { font-size: 22px; }
-    }
-    p {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-    .loader {
-      margin: 25px auto 0;
-      width: 40px;
-      height: 40px;
-      border: 4px solid #333;
-      border-top: 4px solid #ffd700;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .btn{
-      display:inline-block;
-      margin-top:25px;
-      padding:14px 28px;
-      background:#ffd700;
-      color:#000;
-      text-decoration:none;
-      font-weight:bold;
-      border-radius:6px;
-    }
-    .btn:hover{opacity:.85;}
-    .price{color:#ff0000;font-weight:bold;}
-
-    .slider{margin:14px 0 6px;overflow:hidden;background:transparent;}
-    .track{background:transparent;}
-    /* esconder barra de scroll */
-    .slider::-webkit-scrollbar{display:none;}
-    .slider{-ms-overflow-style:none;scrollbar-width:none;}
-    .track{display:flex;gap:12px;padding:6px 2px;width:max-content;animation:marquee 18s linear infinite;}
-    @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);} }
-    .slide{flex:0 0 auto;border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35);background:transparent;}
-    .slide img{display:block;width:260px;height:auto;}
-    @media (max-width:480px){.slide img{width:220px;}}
-
-    .why{font-size:18px;font-weight:bold;margin:14px 0 6px;}
-    .benefits{background:#ffffff;color:#000;border-radius:10px;padding:12px 4px;margin:10px auto 18px;max-width:80%;}
-    .benefit{font-size:16px;font-weight:bold;margin:6px 0;}
-
-    .testimonials{margin:12px auto 18px;max-width:80%;padding:0;}
-    .tcard{background:#ffffff;color:#111;border-radius:12px;padding:14px 14px;margin:10px auto;max-width:100%;text-align:left;box-shadow:0 8px 20px rgba(0,0,0,.35);} 
-    .trow{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-    .avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#e9e9e9;color:#111;flex:0 0 46px;}
-    .avatar-img{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:0 0 46px;}
-    .tmeta{display:flex;flex-direction:column;gap:3px;}
-    .tname{font-weight:800;font-size:16px;line-height:1.1;}
-    .tstars{font-size:16px;letter-spacing:1px;color:#f5c400;}
-    .ttext{font-size:15px;line-height:1.35;}
-
-    .below-comments{margin:14px auto 18px;max-width:80%;}
-    .below-img{width:100%;height:auto;border-radius:10px;display:block;}
-
-    .checklist{background:#ffffff;color:#000;border-radius:10px;padding:14px 12px;margin:10px auto 18px;max-width:80%;text-align:left;}
-    .check-item{font-size:15px;font-weight:bold;margin:6px 0;}
-
-    .pack-image{margin:14px auto 18px;max-width:80%;}
-    .pack-img{width:100%;height:auto;border-radius:10px;display:block;}
-    .pack-image{display:none;} /* desativa imagem antiga do pack */
-
-    /* === PACK COMPLETO (DESIGN HTML) === */
-    .pack-card{margin:14px auto 18px;max-width:80%;}
-    .pack-inner{background:#e8ffe8;border:2px dashed #3bb54a;border-radius:14px;padding:18px 14px;box-shadow:0 8px 22px rgba(0,0,0,.35);} 
-    .pack-title{font-size:18px;font-weight:900;letter-spacing:.3px;color:#111;margin-bottom:10px;}
-    .pack-price{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:10px 0 14px;}
-    .pack-price .old{font-size:16px;color:#777;text-decoration:line-through;}
-    .pack-price .new{font-size:34px;font-weight:900;color:#1a9f49;}
-    .pack-price .usd{font-size:14px;font-weight:700;color:#1a9f49;}
-    .pack-cta{
-      display:block;
-      margin:0 auto;
-      background:#ffd700;
-      color:#000;
-      text-decoration:none;
-      font-weight:900;
-      border-radius:999px;
-      padding:14px 16px;
-      max-width:92%;
-      animation:pulseSoft 3.5s ease-in-out infinite; /* pulso lento */
-      transform-origin:center;
-    }
-    .pack-cta:hover{opacity:.9;}
-
-    @keyframes pulseSoft{
-      0%{transform:scale(1);} 
-      50%{transform:scale(1.03);} /* cresce só 3% para não sair do quadro */
-      100%{transform:scale(1);} 
-    }
-    .pack-cta:hover{opacity:.9;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faça seu pedido</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:#111 var(--bg) center / cover no-repeat;
+    min-height:100dvh;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    padding:24px 20px;
+  }
+  .links{width:100%;max-width:420px;display:flex;flex-direction:column;gap:16px}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:12px;
+    min-height:60px;padding:12px 22px;
+    border-radius:999px;text-decoration:none;
+    font-weight:800;font-size:1.05rem;color:var(--txt,#fff);
+    background:linear-gradient(180deg,var(--c1) 0%,var(--c2) 100%);
+    border:2px solid var(--borda);
+    box-shadow:0 0 10px rgba(var(--glow),.8),0 0 22px rgba(var(--glow),.45),inset 0 1px 0 rgba(255,255,255,.45);
+    transition:transform .15s,box-shadow .15s;
+  }
+  .btn:hover{box-shadow:0 0 14px rgba(var(--glow),1),0 0 30px rgba(var(--glow),.65),inset 0 1px 0 rgba(255,255,255,.45)}
+  .btn:active{transform:scale(.97)}
+  .btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  :root{--bg:var(--bg-cel,none)}
+  @media (min-width:900px) and (orientation:landscape){:root{--bg:var(--bg-pc,var(--bg-cel,none))}}
+  .btn img{width:36px;height:36px;border-radius:50%;object-fit:contain;flex:none}
+</style>
 </head>
 <body>
-  <div class="box">
-    <h1>🎉 ¡FELICIDADES! HAS SIDO SELECCIONADA PARA UN DESCUENTO VIP 🎉</h1>
-    <h2 class="sub">¡ESPERA! NO TE VAYAS CON LAS MANOS VACÍAS</h2>
-    <p>Sabemos que el precio puede ser un obstáculo. Por eso, el Dr. Juan Rivera autorizó una oferta única de <span class="price">$27</span> para ti.</p>
-    <p><strong>Resultados que hablan por sí solos:</strong></p>
 
-    <!-- Slider Antes e Depois -->
-    <div class="slider" aria-label="Antes y Después">
-      <div class="track">
-        <!-- Set 1 -->
-        <a href="https://i.postimg.cc/T2mkbDp1/etapa-4-(4).png" class="slide"><img src="https://i.postimg.cc/T2mkbDp1/etapa-4-(4).png" alt="Antes y Después 1"></a>
-        <a href="https://i.postimg.cc/RZ8fGgDj/etapa-4-(5).png" class="slide"><img src="https://i.postimg.cc/RZ8fGgDj/etapa-4-(5).png" alt="Antes y Después 2"></a>
-        <a href="https://i.postimg.cc/fyBSdCdg/etapa-4-(6).png" class="slide"><img src="https://i.postimg.cc/fyBSdCdg/etapa-4-(6).png" alt="Antes y Después 3"></a>
-        <a href="https://i.postimg.cc/wjSyD7tD/etapa-4-(7).png" class="slide"><img src="https://i.postimg.cc/wjSyD7tD/etapa-4-(7).png" alt="Antes y Después 4"></a>
-        <a href="https://i.postimg.cc/fy2kyLnM/etapa-4-(8).png" class="slide"><img src="https://i.postimg.cc/fy2kyLnM/etapa-4-(8).png" alt="Antes y Después 5"></a>
+<nav class="links" id="links" aria-label="Formas de pedir"></nav>
 
-        <!-- Set 2 (clone para loop infinito) -->
-        <a href="https://i.postimg.cc/T2mkbDp1/etapa-4-(4).png" class="slide" aria-hidden="true" tabindex="-1"><img src="https://i.postimg.cc/T2mkbDp1/etapa-4-(4).png" alt=""></a>
-        <a href="https://i.postimg.cc/RZ8fGgDj/etapa-4-(5).png" class="slide" aria-hidden="true" tabindex="-1"><img src="https://i.postimg.cc/RZ8fGgDj/etapa-4-(5).png" alt=""></a>
-        <a href="https://i.postimg.cc/fyBSdCdg/etapa-4-(6).png" class="slide" aria-hidden="true" tabindex="-1"><img src="https://i.postimg.cc/fyBSdCdg/etapa-4-(6).png" alt=""></a>
-        <a href="https://i.postimg.cc/wjSyD7tD/etapa-4-(7).png" class="slide" aria-hidden="true" tabindex="-1"><img src="https://i.postimg.cc/wjSyD7tD/etapa-4-(7).png" alt=""></a>
-        <a href="https://i.postimg.cc/fy2kyLnM/etapa-4-(8).png" class="slide" aria-hidden="true" tabindex="-1"><img src="https://i.postimg.cc/fy2kyLnM/etapa-4-(8).png" alt=""></a>
-      </div>
-    </div>
+<script>
+/* ============ EDITE AQUI ============ */
 
-    <p class="why">¿Por qué funciona?</p>
+// Imagem de fundo do CELULAR (1080 x 1920, vertical)
+const FUNDO_CELULAR = "https://i.postimg.cc/ZRJSZ660/Copia-de-Cardapio-do-dia-restaurante-moderno-preto-e-amarelo.png";
 
-    <div class="benefits">
-      <div class="benefit">🔥 Activa Hormonas</div>
-      <div class="benefit">🚫 Apaga el hambre</div>
-    </div>
+// Imagem de fundo do COMPUTADOR (1920 x 1080, horizontal)
+const FUNDO_PC = "COLE-AQUI-O-LINK-DA-IMAGEM-DO-COMPUTADOR";
 
-    <div class="benefits">
-      <div class="benefit">🔥 Derrite Grasa</div>
-      <div class="benefit">🌙 Mientras duermes</div>
-    </div>
+// Botões: texto, link de destino, link do ícone e cores
+const BOTOES = [
+  { texto: "Pedir no WhatsApp", link: "https://wa.me/5567999999999",          icone: "COLE-AQUI-O-LINK-DO-ICONE-WHATSAPP",
+    c1: "#2fd66b", c2: "#12a84a", borda: "#b9ffd0", glow: "80,255,140",  txt: "#fff" },
+  { texto: "Pedir no Anota Aí", link: "https://COLE-AQUI-O-LINK-DO-ANOTA-AI", icone: "COLE-AQUI-O-LINK-DO-ICONE-ANOTA-AI",
+    c1: "#7fd0ff", c2: "#3aa3ea", borda: "#dcf2ff", glow: "100,195,255", txt: "#fff" },
+  { texto: "Pedir no iFood",    link: "https://COLE-AQUI-O-LINK-DO-IFOOD",    icone: "COLE-AQUI-O-LINK-DO-ICONE-IFOOD",
+    c1: "#ff4a57", c2: "#d81424", borda: "#ffc9cd", glow: "255,80,90",   txt: "#fff" },
+  { texto: "Pedir na 99",       link: "https://COLE-AQUI-O-LINK-DA-99",       icone: "COLE-AQUI-O-LINK-DO-ICONE-99",
+    c1: "#ffdc45", c2: "#f7b900", borda: "#fff2b0", glow: "255,210,60",  txt: "#1c1b1a" }
+];
 
-    <div class="benefits">
-      <div class="benefit">✅ Sin Rebote</div>
-      <div class="benefit">⚡ Metabolismo mucho acelerado</div>
-    </div>
+/* ============ NÃO PRECISA MEXER ABAIXO ============ */
+const root = document.documentElement.style;
+const cel = FUNDO_CELULAR.startsWith("http") ? FUNDO_CELULAR : "";
+const pc  = FUNDO_PC.startsWith("http") ? FUNDO_PC : cel;
+if (cel) root.setProperty("--bg-cel", `url("${cel}")`);
+if (pc)  root.setProperty("--bg-pc",  `url("${pc}")`);
 
-    <p><strong>Lo que dicen nuestras nuevas alumnas:</strong></p>
+const nav = document.getElementById("links");
+BOTOES.forEach(b => {
+  const a = document.createElement("a");
+  a.className = "btn";
+  a.href = b.link;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.style.setProperty("--c1", b.c1);
+  a.style.setProperty("--c2", b.c2);
+  a.style.setProperty("--borda", b.borda);
+  a.style.setProperty("--glow", b.glow);
+  a.style.setProperty("--txt", b.txt);
 
-    <div class="testimonials">
-      <div class="tcard">
-        <div class="trow">
-          <img src="https://i.postimg.cc/KYffZ6vx/etapa-4-(9).png" alt="Patricia" class="avatar-img">
-          <div class="tmeta">
-            <div class="tname">Patricia, 55 años</div>
-            <div class="tstars" aria-label="5 estrellas">★★★★★</div>
-          </div>
-        </div>
-        <div class="ttext">“El mejor regalo que me he dado. Fácil y rápido.”</div>
-      </div>
+  if (b.icone.startsWith("http")) {
+    const img = document.createElement("img");
+    img.src = b.icone; img.alt = "";
+    img.onerror = () => img.remove();
+    a.appendChild(img);
+  }
 
-      <div class="tcard">
-        <div class="trow">
-          <img src="https://i.postimg.cc/SxyVwQkL/etapa-4-(10).png" alt="Lucía" class="avatar-img">
-          <div class="tmeta">
-            <div class="tname">Lucía, 42 años</div>
-            <div class="tstars" aria-label="5 estrellas">★★★★★</div>
-          </div>
-        </div>
-        <div class="ttext">“Me ayudó a controlar el hambre por la noche. Me siento más ligera.”</div>
-      </div>
-
-      <div class="tcard">
-        <div class="trow">
-          <img src="https://i.postimg.cc/SRkDkmc2/etapa-4-(11).png" alt="Mariana" class="avatar-img">
-          <div class="tmeta">
-            <div class="tname">Mariana, 38 años</div>
-            <div class="tstars" aria-label="5 estrellas">★★★★★</div>
-          </div>
-        </div>
-        <div class="ttext">“Lo hice tal cual y fue súper práctico. Ya lo recomiendo a mis amigas.”</div>
-      </div>
-    </div>
-
-    <div class="below-comments">
-      <img src="https://i.postimg.cc/nVByxzb6/A1W7C27.png" alt="Imagen adicional" class="below-img">
-    </div>
-
-    <div class="checklist">
-      <div class="check-item">✔️ <strong>Guía Principal:</strong> El Truco de la Gelatina</div>
-      <div class="check-item">✔️ <strong>BONUS 1:</strong> Vientre Plano en 24h</div>
-      <div class="check-item">✔️ <strong>BONUS 2:</strong> Truco de Glúteos Firmes</div>
-      <div class="check-item">✔️ <strong>BONUS 3:</strong> Adiós Celulitis</div>
-      <div class="check-item">✔️ <strong>BONUS 4:</strong> Secretos de la Menopausia</div>
-      <div class="check-item">✔️ <strong>BONUS 5:</strong> Secreto de las Coreanas</div>
-    </div>
-
-    <p>Tu acceso especial está listo.</p>
-    <p>Haz clic abajo para continuar y activar tu beneficio.</p>
-
-    <div class="pack-card">
-      <div class="pack-inner">
-        <div class="pack-title">LLEVATELO TODO<br>(PACK COMPLETO)</div>
-        <div class="pack-price">
-          <span class="old">$97</span>
-          <span class="new">$17</span> <span class="usd">USD</span>
-        </div>
-        <a href="https://pay.mycheckoutt.com/019c5e1d-880b-7307-9dbc-2a2b3b075d5a?ref=" class="pack-cta">SÍ, QUIERO MI ACCESO POR SOLO $17</a>
-      </div>
-    </div>
-
-    <img src="https://i.postimg.cc/JhfCMHTJ/Captura-de-tela-7-1-2026-35038-gelatinabariatrica-vivasalud-site.jpg" alt="Información adicional" style="display:block; width:100%; max-width:80%; margin:18px auto 0; border-radius:10px;">
-  </div>
-
-  <!-- FOOTER LEGAL -->
-  <footer style="width:100%; background:#000000; color:#ffffff; padding:18px 12px; font-size:12px; line-height:1.6; text-align:center;">
-    <div style="max-width:520px; margin:0 auto;">
-      Copyright © 2026 - Truco de la Gelatina. Todos los derechos reservados.<br><br>
-      <a href="#" style="color:#ffffff; text-decoration:underline;">Privacidad</a>
-      &nbsp;|&nbsp;
-      <a href="#" style="color:#ffffff; text-decoration:underline;">Términos</a>
-    </div>
-  </footer>
+  const s = document.createElement("span");
+  s.textContent = b.texto;
+  a.appendChild(s);
+  nav.appendChild(a);
+});
+</script>
 </body>
 </html>
