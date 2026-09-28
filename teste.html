@@ -68,8 +68,8 @@
   .btn:hover{transform:translateY(-2px)}
   .btn:active{transform:translateY(5px);box-shadow:0 2px 0 var(--sombra),0 4px 10px rgba(0,0,0,.4),0 0 12px rgba(var(--glow),.7),inset 0 2px 0 rgba(255,255,255,.55)}
   .btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
-  .btn img{position:relative;width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-  .btn span{position:relative}
+  .btn img{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+  .btn span{position:relative;padding:0 56px}
 
   @media (prefers-reduced-motion:reduce){.stalk{animation:none}}
 </style>
